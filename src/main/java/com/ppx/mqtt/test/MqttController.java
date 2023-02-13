@@ -17,7 +17,8 @@ public class MqttController {
     @GetMapping("/send")
     public String send() {
     	MyMessage myMessage = new MyMessage();
-    	myMessage.setTopic("collector");
+    	// /abc/sensor匹配不上+/sensor，匹配上abc/sensor
+    	myMessage.setTopic("abc/sensor");
     	myMessage.setContent("xxxxxx01");
         // 发送消息到指定主题
         mqttGateway.sendToMqtt(myMessage.getTopic(), 1, myMessage.getContent());
