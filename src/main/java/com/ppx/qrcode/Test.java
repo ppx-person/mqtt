@@ -14,7 +14,7 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 public class Test {
 	public static void main(String[] args) {
 		
-        // 存在白边
+        // 存在白边  
         String qr = createQr("P77756860316684", false);
         // 去除白边
         // String qr1 = createQr("https://workorder.hr-soft.cn/workorder/demand/project_demand_detail.html?demandId=hzcctech_610", true);
