@@ -8,7 +8,7 @@ server:
 mqtt:
  username: test                        # 账号
  password: 123456                      # 密码
- host-url: tcp://193.112.101.68:1883   # mqtt连接tcp地址
+ host-url: tcp://101.91.151.161:1883   # mqtt连接tcp地址
  in-client-id: ${random.value}         # 随机值，使出入站 client ID 不同
  out-client-id: ${random.value}
  client-id: ${random.int}                   # 客户端Id，不能相同，采用随机数 ${random.value}

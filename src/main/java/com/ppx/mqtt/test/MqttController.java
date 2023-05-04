@@ -18,10 +18,13 @@ public class MqttController {
     public String send() {
     	MyMessage myMessage = new MyMessage();
     	// /abc/sensor匹配不上+/sensor，匹配上abc/sensor
-    	myMessage.setTopic("abc/sensor");
-    	myMessage.setContent("xxxxxx01");
+    	// myMessage.setTopic("abc/sensor");
+    	myMessage.setTopic("my_topic/gogo");
+    	myMessage.setContent("456");
         // 发送消息到指定主题
-        mqttGateway.sendToMqtt(myMessage.getTopic(), 1, myMessage.getContent());
+    	
+    	
+        mqttGateway.sendToMqtt(myMessage.getTopic(), 1, myMessage.getContent(), true);
         return "send topic: " + myMessage.getTopic()+ ", message : " + myMessage.getContent();
     }
  

@@ -13,4 +13,6 @@ public interface MqttGateway {
     void sendToMqtt(@Header(MqttHeaders.TOPIC) String topic, String payload);
     void sendToMqtt(@Header(MqttHeaders.TOPIC) String topic, @Header(MqttHeaders.QOS) int qos, String payload);
     void sendToMqtt(@Header(MqttHeaders.TOPIC) String topic, @Header(MqttHeaders.QOS) int qos, byte[] payload);
+    
+    void sendToMqtt(@Header(MqttHeaders.TOPIC) String topic, @Header(MqttHeaders.QOS) int qos, String payload, @Header(MqttHeaders.RETAINED) boolean retained);
 }

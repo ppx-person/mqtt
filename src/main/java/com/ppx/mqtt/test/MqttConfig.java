@@ -12,9 +12,14 @@ import org.springframework.integration.mqtt.outbound.MqttPahoMessageHandler;
 import org.springframework.integration.mqtt.support.DefaultPahoMessageConverter;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
+import org.springframework.util.StringUtils;
+
+import jakarta.annotation.Resource;
  
 @Configuration
 public class MqttConfig {
+	@Resource
+    private MqttGateway mqttGateway;
  
     // 消费消息
  
@@ -26,9 +31,12 @@ public class MqttConfig {
     public MqttPahoClientFactory mqttClientFactory() {
         DefaultMqttPahoClientFactory factory = new DefaultMqttPahoClientFactory();
         MqttConnectOptions options = new MqttConnectOptions();
+       
  
         // 设置代理端的URL地址，可以是多个
-        options.setServerURIs(new String[]{"tcp://193.112.101.68:1883"});
+        options.setServerURIs(new String[]{"tcp://101.91.151.161:1883"});
+        options.setUserName("test");
+        options.setPassword("123456".toCharArray());
  
         factory.setConnectionOptions(options);
         return factory;
@@ -49,7 +57,7 @@ public class MqttConfig {
     public MessageProducer inbound() {
         // Paho客户端消息驱动通道适配器，主要用来订阅主题
         MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter("consumerClient-paho",
-                mqttClientFactory(), "boat", "collector", "battery", "+/sensor");
+                mqttClientFactory(), "boat", "collector", "battery", "+/sensor", "my_topic/+");
         adapter.setCompletionTimeout(5000);
  
         // Paho消息转换器
@@ -78,6 +86,11 @@ public class MqttConfig {
                 System.out.println("传感器" + sensorSn + ": 的消息： " + payload);
             } else if (topic.equals("collector")) {
                 System.out.println("采集器的消息：" + payload);
+            } else if (topic.startsWith("my_topic/")) {
+            	if (StringUtils.hasText(payload)) {
+            		System.out.println("my_topic消息：" + payload + "||" + topic);
+            		mqttGateway.sendToMqtt(topic, 1, "", true);
+            	}
             } else {
                 System.out.println("丢弃消息：主题[" + topic  + "]，负载：" + payload);
             }

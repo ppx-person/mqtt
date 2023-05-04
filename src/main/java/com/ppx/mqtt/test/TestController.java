@@ -16,6 +16,6 @@ public class TestController {
 	
 	@GetMapping("/test") @ResponseBody
     public String test(HttpServletRequest request) {
-    	return "begin test001"; 
+    	return "begin test002"; 
     }
 }
